@@ -1,0 +1,19 @@
+rules:
+- id: websocket-checkorigin-missing
+  patterns:
+    - pattern-either: 
+      - pattern: |
+          upgrader.Upgrade(...)
+    - pattern-not-inside: |
+        func $HANDLER(...) {
+          ...   
+          upgrader.CheckOrigin
+          ...
+        }
+  message: |
+    The 'Origin' header of the Websocket handshake request is not checked.
+    This could lead to Cross-Site WebSocket Hijacking vulnerability (CSWSH).
+  fix: |
+    
+  severity: WARNING
+
