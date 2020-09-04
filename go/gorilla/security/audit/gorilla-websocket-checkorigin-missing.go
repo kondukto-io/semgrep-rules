@@ -5,10 +5,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/websocket"
+	ws "github.com/gorilla/websocket"
 )
 
-var upgrader = websocket.Upgrader{
+var upg = ws.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
@@ -20,7 +20,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	//upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 
-	ws, err := upgrader.Upgrade(w, r, nil)
+	ws, err := upg.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 	}
@@ -34,7 +34,7 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	reader(ws)
 }
 
-func reader(conn *websocket.Conn) {
+func reader(conn *ws.Conn) {
 	for {
 		messageType, p, err := conn.ReadMessage()
 		if err != nil {
