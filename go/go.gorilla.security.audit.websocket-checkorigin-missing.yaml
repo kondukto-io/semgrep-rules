@@ -1,5 +1,5 @@
 rules:
-- id: websocket-checkorigin-missing
+- id: go.gorilla.security.audit.websocket-checkorigin-missing
   metadata:
     cwe: 'CWE-352'
     owasp: 'A1: Injection'
@@ -8,7 +8,7 @@ rules:
   patterns:
     - pattern-either: 
       - pattern: |
-          $X = $Y.Upgrader
+          $X.Upgrade(...)
       - pattern: |
           $X.Upgrade(...)
     - pattern-not-inside: |

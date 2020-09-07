@@ -1,5 +1,5 @@
 rules:
-- id: go-routine-on-loop-iterator-variables
+- id: go.common.audit.go-routine-on-loop-iterator-variables
   metadata:
     references:
       - https://github.com/golang/go/wiki/CommonMistakes
