@@ -1,0 +1,24 @@
+rules:
+- id: XXE
+  message: |
+    Generic XXE in `$JC`
+  metadata:
+    owasp: "A4: XXE"
+    cwe: 'CWE-611'
+  patterns:
+  - pattern-either: 
+    - pattern: |
+        JAXBContext $JC = $W.newInstance($CLASS);
+        ...
+        Unmarshaller $JU = $JC.createUnmarshaller();
+
+  - pattern-not-inside: |
+        $RETURNTYPE $METHOD(...) {
+          ...
+          $X.setFeature("http://xml.org/sax/features/external-general-entities", false);
+          $X.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+          $X.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+          ...
+        }     
+  languages: [java]
+  severity: ERROR
